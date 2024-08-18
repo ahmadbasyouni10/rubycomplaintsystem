@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="columns mt-6 is-centered">
-  <div class="column is-one-third">
+  <div class="column is-two-thirds">
     <nav class="panel is-link">
       <p class="panel-heading">
         <%= @complaint.company.presence || 'Company Not Specified' %>
@@ -11,34 +11,56 @@
 
       <% [
         ['Product', :product],
+        ['Sub Product', :sub_product],
+        ['Issue', :issue],
+        ['Sub Issue', :sub_issue],
         ['Complaint ID', :complaint_id],
-        ['Timely Response', :timely],
-        ['Consumer Consent Provided', :consumer_consent_provided],
-        ['Company Response', :company_response],
         ['Submitted Via', :submitted_via],
         ['Date Received', :date_received],
         ['State', :state],
-        ['Consumer Disputed', :consumer_disputed],
-        ['Company Public Response', :company_public_response],
-        ['Sub Issue', :sub_issue]
+        ['ZIP Code', :zip_code],
       ].each do |label, attr| %>
         <% if @complaint.send(attr).present? %>
           <div class="panel-block">
-            <strong><%= label %>:</strong> <%= @complaint.send(attr) %>
+            <strong class="is-block mb-2"><%= label %>:</strong>
+            <span class="ml-4"><%= @complaint.send(attr) %></span>
           </div>
         <% end %>
       <% end %>
-    </nav>
+
+      <div class="panel-block">
+      <strong class="is-block mb-2">Complaint:</strong>
+      <span class="ml-4"><%= @complaint.complain_what_happened %></span>
+    </div>
+  </nav>
+
+    <% if @gpt_response.present? %>
+      <div class="mt-6">
+        <h2 class="title is-4">AI-Generated Response</h2>
+        <div class="box">
+          <%= @gpt_response %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @similar_complaints.any? %>
+      <div class="mt-6">
+        <h2 class="title is-4">Similar Complaints</h2>
+        <% @similar_complaints.each do |similar_complaint| %>
+          <div class="box">
+            <h3 class="title is-5"><%= similar_complaint.company %> - <%= similar_complaint.product %></h3>
+            <p><%= truncate(similar_complaint.complain_what_happened, length: 200) %></p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
 
     <div class="columns is-mobile mt-4">
       <div class="column">
-        <%= link_to "Edit", edit_complaint_path(@complaint), class: "button is-gray" %>
-        <%= button_to "Delete", @complaint, method: :delete, class: "button is-danger", data: { confirm: "Are you sure?" } %>
+        <%= link_to "Edit", edit_complaint_path(@complaint), class: "button is-gray mr-2" %>
+        <%= button_to "Delete", @complaint, method: :delete, class: "button is-danger mr-2", data: { confirm: "Are you sure?" } %>
+        <%= link_to "Back to complaints", complaints_path, class: "button is-link" %>
       </div>
     </div>
   </div>
-</div>
-
-<div class="mt-4">
-  <%= link_to "Back to complaints", complaints_path, class: "button is-link" %>
 </div>
