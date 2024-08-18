@@ -1,0 +1,14 @@
+
+<% content_for :title, "New complaint" %>
+
+<div class="columns is-centered mt-6">
+  <div class="column is-one-third">
+    <h1 class="is-size-2 has-text-weight-bold mb-3">New complaint</h1>
+
+
+  <%= render "form", complaint: @complaint %>
+
+
+  <%= link_to "Show this complaint", @complaint %> |
+  <%= link_to "Back to complaints", complaints_path %>
+</div>
