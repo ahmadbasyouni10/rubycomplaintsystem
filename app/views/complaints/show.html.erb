@@ -1,0 +1,68 @@
+<% content_for :title do %>
+  <%= @complaint.company %> &mdash; <%= DateTime.now.strftime("%d %B %Y") %>
+<% end %>
+
+<div class="columns mt-6 is-centered">
+  <div class="column is-one-third">
+    <nav class="panel is-link">
+      <p class="panel-heading">
+        <%= @complaint.company %>
+      </p>
+
+      <div class="panel-block">
+        <strong>Product:</strong> <%= @complaint.product %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Complaint ID:</strong> <%= @complaint.complaint_id %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Timely Response:</strong> <%= @complaint.timely %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Consumer Consent Provided:</strong> <%= @complaint.consumer_consent_provided %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Company Response:</strong> <%= @complaint.company_response %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Submitted Via:</strong> <%= @complaint.submitted_via %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Date Received:</strong> <%= @complaint.date_received %>
+      </div>
+
+      <div class="panel-block">
+        <strong>State:</strong> <%= @complaint.state %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Consumer Disputed:</strong> <%= @complaint.consumer_disputed %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Company Public Response:</strong> <%= @complaint.company_public_response %>
+      </div>
+
+      <div class="panel-block">
+        <strong>Sub Issue:</strong> <%= @complaint.sub_issue %>
+      </div>
+    </nav>
+
+    <div class="columns is-mobile mt-4">
+      <div class="column">
+        <%= link_to "Edit", edit_complaint_path(@complaint), class: "button is-gray" %>
+        <%= button_to "Delete", @complaint, method: :delete, class: "button is-danger", data: { confirm: "Are you sure?" } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <%= link_to "Back to complaints", complaints_path, class: "button is-link" %>
+</div>
