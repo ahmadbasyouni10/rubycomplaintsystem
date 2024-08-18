@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_18_101608) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_18_195719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "vector"
@@ -36,6 +36,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_18_101608) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.vector "embedding", limit: 1536
-    t.boolean "is_imported"
+    t.boolean "is_user_created", default: false, null: false
+    t.text "gpt_response"
+    t.index ["is_user_created"], name: "index_complaints_on_is_user_created"
   end
 end
