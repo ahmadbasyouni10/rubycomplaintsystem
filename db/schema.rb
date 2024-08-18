@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_18_030546) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_18_101608) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "vector"
+
   create_table "complaints", force: :cascade do |t|
     t.string "product"
     t.text "complain_what_happened"
@@ -31,5 +35,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_18_030546) do
     t.string "sub_issue"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.vector "embedding", limit: 1536
+    t.boolean "is_imported"
   end
 end
