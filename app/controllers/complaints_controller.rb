@@ -1,12 +1,23 @@
 class ComplaintsController < ApplicationController
-  before_action :set_complaint, only: [:show, :edit, :update, destroy]
+  before_action :set_complaint, only: [:show, :edit, :update, :destroy]
 
   def index
-    # only show user created complaints
     @complaints = Complaint.where(is_user_created: true)
   end
 
   def show
+    rag_pipeline = RagPipeline.new
+    @similar_complaints = rag_pipeline.find_similar_complaints(@complaint.embedding)
+                                      .reject { |c| c.id == @complaint.id }
+                                      .first(4)  # Limit to 4 similar complaints
+
+    # Generate GPT response if it doesn't exist
+    if @complaint.gpt_response.nil?
+      @gpt_response = generate_gpt_response(@complaint, @similar_complaints)
+      @complaint.update(gpt_response: @gpt_response)
+    else
+      @gpt_response = @complaint.gpt_response
+    end
   end
 
   def new
@@ -15,11 +26,17 @@ class ComplaintsController < ApplicationController
 
   def create
     @complaint = Complaint.new(complaint_params)
-    # set is_user_created to true
     @complaint.is_user_created = true
 
-    if @complaint.save
-      redirect_to @complaint, notice: 'Complaint was successfully created.'
+    rag_pipeline = RagPipeline.new
+    result = rag_pipeline.process_new_complaint(@complaint)
+
+    if result && @complaint.save
+      @similar_complaints = result[:similar_complaints].first(4)
+      @gpt_response = generate_gpt_response(@complaint, @similar_complaints)
+      @complaint.update(gpt_response: @gpt_response)
+      
+      redirect_to @complaint, notice: 'Complaint was successfully created and processed.'
     else
       render :new
     end
@@ -30,7 +47,16 @@ class ComplaintsController < ApplicationController
 
   def update
     if @complaint.update(complaint_params)
-      redirect_to @complaint, notice: 'Complaint was successfully updated.'
+      rag_pipeline = RagPipeline.new
+      result = rag_pipeline.process_new_complaint(@complaint)
+
+      if result
+        @similar_complaints = result[:similar_complaints].first(4)
+        @gpt_response = generate_gpt_response(@complaint, @similar_complaints)
+        @complaint.update(gpt_response: @gpt_response)
+      end
+
+      redirect_to @complaint, notice: 'Complaint was successfully updated and reprocessed.'
     else
       render :edit
     end
@@ -48,6 +74,20 @@ class ComplaintsController < ApplicationController
   end
 
   def complaint_params
-    params.require(:complaint).permit(:product, :complain_what_happened, :issue, :sub_product, :zip_code, :tags, :timely, :consumer_consent_provided, :company_response, :submitted_via, :company, :date_received, :state, :consumer_disputed, :company_public_response, :sub_issue)
+    params.require(:complaint).permit(
+      :complain_what_happened,
+      :product,
+      :sub_product,
+      :issue,
+      :sub_issue,
+      :company,
+      :state,
+      :zip_code
+    )
+  end
+
+  def generate_gpt_response(complaint, similar_complaints)
+    rag_pipeline = RagPipeline.new
+    rag_pipeline.generate_gpt_response(complaint, similar_complaints)
   end
 end
