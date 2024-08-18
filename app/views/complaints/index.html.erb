@@ -1,0 +1,71 @@
+<% content_for :title do %>
+  ComplaintsSystem &mdash; <%= DateTime.now.strftime("%d %B %Y") %>
+<% end %>
+
+
+<div class="columns mt-6 is-centered">
+  <% @complaints.each do |complaint| %>
+    <div class="column is-one-quarter">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">
+            <%= complaint.company %> - <%= complaint.product %>
+          </p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p>
+              <strong>Complaint ID:</strong> <%= complaint.complaint_id %>
+            </p>
+
+            <p>
+              <strong>Timely Response:</strong> <%= complaint.timely %>
+            </p>
+
+            <p>
+              <strong>Consumer Consent Provided:</strong> <%= complaint.consumer_consent_provided %>
+            </p>
+
+            <p>
+              <strong>Company Response:</strong> <%= complaint.company_response %>
+            </p>
+
+            <p>
+              <strong>Submitted Via:</strong> <%= complaint.submitted_via %>
+            </p>
+
+            <p>
+              <strong>Date Received:</strong> <%= complaint.date_received %>
+            </p>
+
+            <p>
+              <strong>State:</strong> <%= complaint.state %>
+            </p>
+
+            <p>
+              <strong>Consumer Disputed:</strong> <%= complaint.consumer_disputed %>
+            </p>
+
+            <p>
+              <strong>Company Public Response:</strong> <%= complaint.company_public_response %>
+            </p>
+
+            <p>
+              <strong>Sub Issue:</strong> <%= complaint.sub_issue %>
+            </p>
+            <p class="italic">
+              Logged <%= time_ago_in_words(complaint.created_at) %> ago
+
+            </p>
+          </div>
+        </div>
+        
+        <footer class="card-footer">
+          <%= link_to "Show", complaint_path(complaint), class: "card-footer-item" %>
+          <%= link_to "Edit", edit_complaint_path(complaint), class: "card-footer-item" %>
+          <%= button_to "Destroy", complaint, method: :delete, data: { confirm: "Are you sure?" }, class: "card-footer-item" %>
+        </footer>
+      </div>
+    </div>
+  <% end %>
+</div>
