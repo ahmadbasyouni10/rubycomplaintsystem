@@ -1,0 +1,103 @@
+<%= form_with(model: complaint) do |form| %>
+  <% if complaint.errors.any? %>
+
+    <div style="color: red">
+      <h2><%= pluralize(complaint.errors.count, "error") %> prohibited this complaint from being saved:</h2>
+
+      <ul>
+        <% complaint.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+  <%= form.label :product, class: "label" %>
+  <%= form.text_field :product, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :complain_what_happened, class: "label" %>
+  <%= form.text_area :complain_what_happened, class: "textarea" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :issue, class: "label" %>
+  <%= form.text_field :issue, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :sub_product, class: "label" %>
+  <%= form.text_field :sub_product, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :zip_code, class: "label" %>
+  <%= form.text_field :zip_code, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :tags, class: "label" %>
+  <%= form.text_field :tags, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :complaint_id, class: "label" %>
+  <%= form.text_field :complaint_id, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :timely, class: "label" %>
+  <%= form.text_field :timely, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :consumer_consent_provided, class: "label" %>
+  <%= form.text_field :consumer_consent_provided, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :company_response, class: "label" %>
+  <%= form.text_field :company_response, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :submitted_via, class: "label" %>
+  <%= form.text_field :submitted_via, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :company, class: "label" %>
+  <%= form.text_field :company, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :date_received, class: "label" %>
+  <%= form.datetime_field :date_received, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :state, class: "label" %>
+  <%= form.text_field :state, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :consumer_disputed, class: "label" %>
+  <%= form.text_field :consumer_disputed, class: "input" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :company_public_response, class: "label" %>
+  <%= form.text_area :company_public_response, class: "textarea" %>
+</div>
+
+<div class="mb-4">
+  <%= form.label :sub_issue, class: "label" %>
+  <%= form.text_field :sub_issue, class: "input" %>
+</div>
+
+<div class="mt-4 mb-4">
+  <%= form.submit class: "button is-primary" %>
+</div>
+<% end %>
