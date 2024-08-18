@@ -1,14 +1,66 @@
-
 <% content_for :title, "Editing complaint" %>
 
 <div class="columns is-centered mt-6">
-  <div class="column is-one-third">
+  <div class="column is-two-thirds">
     <h1 class="is-size-2 has-text-weight-bold mb-3">Editing complaint</h1>
+    <%= form_with(model: @complaint, local: true) do |form| %>
+      <% if @complaint.errors.any? %>
+        <div class="notification is-danger">
+          <h2><%= pluralize(@complaint.errors.count, "error") %> prohibited this complaint from being saved:</h2>
+          <ul>
+            <% @complaint.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
+      <div class="field">
+        <%= form.label :complain_what_happened, class: "label" %>
+        <%= form.text_area :complain_what_happened, class: "textarea" %>
+      </div>
 
-  <%= render "form", complaint: @complaint %>
+      <div class="field">
+        <%= form.label :product, class: "label" %>
+        <%= form.text_field :product, class: "input" %>
+      </div>
 
+      <div class="field">
+        <%= form.label :sub_product, class: "label" %>
+        <%= form.text_field :sub_product, class: "input" %>
+      </div>
 
-  <%= link_to "Show this complaint", @complaint %> |
-  <%= link_to "Back to complaints", complaints_path %>
+      <div class="field">
+        <%= form.label :issue, class: "label" %>
+        <%= form.text_field :issue, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :sub_issue, class: "label" %>
+        <%= form.text_field :sub_issue, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :company, class: "label" %>
+        <%= form.text_field :company, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :state, class: "label" %>
+        <%= form.text_field :state, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :zip_code, class: "label" %>
+        <%= form.text_field :zip_code, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.submit class: "button is-primary" %>
+      </div>
+    <% end %>
+
+    <%= link_to "Show this complaint", @complaint %> |
+    <%= link_to "Back to complaints", complaints_path %>
+  </div>
 </div>
