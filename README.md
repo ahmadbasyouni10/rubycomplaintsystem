@@ -2,6 +2,10 @@
 
 This application is designed to manage and process user complaints using Ruby on Rails. It leverages modern technologies such as PostgreSQL with vector extensions and Langchain to enhance complaint management through AI-driven insights.
 
+# System Architecture
+![image](https://github.com/user-attachments/assets/4504663f-7103-4cc6-828a-b4671cc5add7)
+
+
 ## Table of Contents
 
 - [Ruby Version](#ruby-version)
